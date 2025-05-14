@@ -30,16 +30,45 @@ exports.addBooks = async function (req, res) {
   });
 };
 
-exports.deleteBooks = function (req, res) {
+exports.deleteBooks = async function (req, res) {
   //logic to delete book goes here
+  //first maa hami, kun boook delete garna aateko tesko id lim
+  const id = req.params.id; //const{id} = req.params
+  //const id = req.body.id => yesore body bata nee lagna milxa
+
+  //id paayapaxi tyo id ko books table bata hatuanya
+  await books.destroy({
+    where: {
+      id,
+      // id : id yesore nee lekhna milxa
+    }, // delete from books table where id = id
+  });
 
   res.json({
     message: "Book deleted successfully",
   });
 };
 
-exports.updateBooks = function (req, res) {
+exports.updateBooks = async function (req, res) {
   // logic to update books goes here
+  //kun id ko update garnya first maa teslai linya
+  const id = req.params.id;
+
+  //k k update garnya tyo lekhnya
+  const { bookName, bookPrice, bookAuthor, bookGenre } = req.body;
+  await books.update(
+    {
+      bookName: bookName,  //keys ra value ko name same xa vnya eutai matra lekhna nee milxa => bookName
+      bookPrice: bookPrice, //bookPrice
+      bookAuthor: bookAuthor, //bookAuthor
+      bookGenre: bookGenre, //format key : value
+    },
+    {
+      where: {
+        id: id,
+      },
+    }
+  );
 
   res.json({
     message: "Book updated succesfully",
@@ -50,15 +79,24 @@ exports.singleBookFetch = async function (req, res) {
   //first capture what id he/she is sending
   const id = req.params.id;
   const datas = await books.findByPk(id); //always return object
+
+  // books.findAll({
+  //     where : {
+  //         bookName : "hello world",
+  //         authorName : "John"
+  //     }
+  // })
+  // }) // select * from books where bookName="hello world" && authorName = "manish"
+
   // const datass = await books.findAll({ //yesore nee particular id ko nikalna sakinxa
   //   where : {
   //     id : id
   //   }
-  // }) //always return an array 
+  // }) //always return an array
   res.json({
     message: "Your desired book is fetched successfully",
     datas,
-   // datass,
+    // datass,
   });
 };
 
