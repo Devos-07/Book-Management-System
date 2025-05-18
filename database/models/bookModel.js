@@ -12,10 +12,12 @@ const bookModel = (sequelize, DataTypes) => {
     },
     bookAuthor: {
       type: DataTypes.STRING,
-      defaultValue: "Anonymous",
+      allowNull: false,
+      
     },
     bookGenre: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
   });
   return book;
