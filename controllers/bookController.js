@@ -16,6 +16,7 @@ exports.addBooks = async function (req, res) {
   //console.log(req.body);
   // const bookName = req.body.bookName
   // const bookPrice = req.body.bookPrice
+  //console.log(req.body, "Frontened bata aako data hoo yo")
 
   const { bookName, bookPrice, bookAuthor, bookGenre } = req.body; //mathi ko duita lai yesore destructure garerw nee nikalna milxa
   await books.create({
